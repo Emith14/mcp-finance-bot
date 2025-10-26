@@ -7,7 +7,7 @@ async function bootstrap() {
 
   // CORS (ajusta dominios que necesitas: localhost, vercel, onrender, etc.)
   app.enableCors({
-    origin: [/localhost:\d+$/, /\.vercel\.app$/, /\.onrender\.com$/, /\.railway\.app$/],
+    origin: true,
     credentials: false,
   });
 
