@@ -4,8 +4,23 @@ import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  app.enableCors({ origin: [/localhost:\d+$/, /\.vercel\.app$/, /\.railway\.app$/], credentials: false });
-  app.useGlobalPipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true, transform: true }));
-  await app.listen(process.env.PORT || 3000);
+
+  // CORS (ajusta dominios que necesitas: localhost, vercel, onrender, etc.)
+  app.enableCors({
+    origin: [/localhost:\d+$/, /\.vercel\.app$/, /\.onrender\.com$/, /\.railway\.app$/],
+    credentials: false,
+  });
+
+  // ValidationPipe (ya que instalaste class-validator y class-transformer)
+  app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist: true,
+      forbidNonWhitelisted: true,
+      transform: true,
+    }),
+  );
+
+  // Importante para Docker/Render
+  await app.listen(process.env.PORT || 3000, '0.0.0.0');
 }
 bootstrap();
